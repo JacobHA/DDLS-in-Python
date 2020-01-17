@@ -10,15 +10,20 @@ from data_file_reader import FileReader
 from Calculations import runner
 from sample_initializer import initiator
 
-
 sample_dictionary = FileReader()
 newdata = input("If you would like to add a new dataset, type \"yes\" and press enter. Otherwise, press any other key.\n")
 if newdata == 'yes':
     writer()
     print("Data added. Exiting...")
-    exit()
+    #exit()
 else:
     model = initiator(sample_dictionary)
-    runner(*model)
-    
+    print(['model', 'Temperature [K]', 'D_tr [nm^2/us]', 'D_rot [10^-4 / us]'])
+    for i in model:
+        print(i)
+        try:
+            runner(*i)
+        except TypeError:
+            print("Failed to plot the figure, continuing.")
+#    for i in model
     

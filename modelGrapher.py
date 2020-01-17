@@ -7,7 +7,7 @@ Created on Wed Nov 20 13:04:00 2019
 
 # PLOTTER
 import numpy as np
-#from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d import Axes3D # need this still to plot
 import matplotlib.pyplot as plt
 from geometric_functions_for_DDLS import GeneralDims
 
@@ -46,8 +46,10 @@ def grapher(aspect_ratio, model, T, D_tr, D_rot):
         for axis in 'xyz':
             getattr(ax, 'set_{}lim'.format(axis))((-axbound/2,axbound/2))
         
-        plt.show()
-    
+        #plt.show()
+        aspect_ratio_str = str(aspect_ratio).replace('.','_') # so that we can save the filetype correctly
+        plt.savefig(f'.//plot of {model} with aspect ratio of {aspect_ratio_str}')
+        
     if model == 'oblate' or model == 'prolate':
         
         phi = np.linspace(0,2*pi, 256).reshape(256, 1) # the angle of the projection in the xy-plane
@@ -65,6 +67,10 @@ def grapher(aspect_ratio, model, T, D_tr, D_rot):
         
         for axis in 'xyz':
             getattr(ax, 'set_{}lim'.format(axis))((-rbound,rbound))
+            
+        aspect_ratio_str = str(aspect_ratio).replace('.','_') # so that we can save the filetype correctly
+        plt.savefig(f'.//plot of {model} with aspect ratio of {aspect_ratio_str}')
+
 
 # Animation:
             
