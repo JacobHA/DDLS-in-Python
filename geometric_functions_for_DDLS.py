@@ -14,8 +14,9 @@ pi = np.pi
 def viscosity(T):
     A_visc = 2.414e-5
     B_visc = 247.8
-    C_visc = 140 # numerical constants for viscosity calculation defined in Mathcad file ...
-    return A_visc*10**(B_visc/(T-C_visc))
+    C_visc = 140 
+    # ^numerical constants for viscosity calculation defined in Mathcad file ...
+    return A_visc * 10**(B_visc/(T-C_visc))
 
 def coeffs(T, D_tr, D_rot):
     base = kB*T/(3*pi*viscosity(T))
@@ -53,30 +54,23 @@ def ModelChoice(model_name):
 
     if model_name == 'oblate':
         F, G = F_obl, G_obl
-        f=1
+
     if model_name == 'prolate':
         F, G = F_pro, G_pro
-        f=1
+
     if model_name == 'cylinder':
         F, G = F_cyl, G_cyl
-        f=1
-            
-    if f != 1:
-        print("This is not a currently supported model.")
-        print("Currently supported models include \'prolate\', \'oblate\', or \'cylindrical\'.")
-        
+
     if model_name == '':
         print("Please enter a name for the model to use. I.e.: \'prolate\', \'oblate\', or \'cylindrical\'.")
-
-    if f == 1:
-        return F,G
-    else:
-        return None
+        exit()
+    
+    return F,G
 
 # The optimization function with applied model:
 def OptimizingFunction(model_name, T, D_tr, D_rot):
     F,G = ModelChoice(model_name)
-    return lambda x: GeneralOpt(F,G,x, T, D_tr, D_rot)
+    return lambda x: GeneralOpt(F, G, x, T, D_tr, D_rot)
 
 # The general dimensions with applied model:
 def GeneralDims(model_name, rho, T, D_tr, D_rot):
