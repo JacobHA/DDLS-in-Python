@@ -37,12 +37,14 @@ def Solver(modelname, T, D_tr, D_rot):
     try:
         rho = mode([round(z,digits) for z in zeros])
         print("Aspect ratio: " + str(rho))
-        print("Length: " + str(round(10**9 * GeneralDims(modelname,rho, T, D_tr, D_rot)[0])) + "nm")
-        print("Width: " + str(round(10**9 * GeneralDims(modelname,rho, T, D_tr, D_rot)[1])) + "nm")
-        return rho
+        length, width = GeneralDims(modelname, rho, T, D_tr, D_rot)
+        print(f"Length: {round(10**9 * length)} nm")
+        print(f"Width: {round(10**9 * width)} nm")
+        return length,width
 
     except StatisticsError or RuntimeWarning:
         print("No solution.")
         
 def runner(model, T, D_tr, D_rot):
-    grapher(Solver(model, T, D_tr, D_rot), model, T, D_tr, D_rot)
+    length, width = Solver(model, T, D_tr, D_rot)
+    grapher(length, width, model, T, D_tr, D_rot)

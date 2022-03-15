@@ -24,6 +24,7 @@ else:
     
     try:
         runner(*model)
-    except:
+    except Exception as err:
+        print(f'An error has occured: {err}')
         print("Model analysis failed. Exiting...")
 
