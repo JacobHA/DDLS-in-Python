@@ -9,12 +9,23 @@ Created on Wed Nov 20 13:04:00 2019
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D # need this still to plot
 import matplotlib.pyplot as plt
-from geometric_functions_for_DDLS import GeneralDims
+import os
 
+RESOLUTION = 256
 pi=np.pi
 
-def grapher(aspect_ratio, model, T, D_tr, D_rot):
-    length,width = GeneralDims(model, aspect_ratio, T, D_tr, D_rot)
+
+def data_for_cylinder_along_z(center_x,center_y,radius,height_z): ## FROM SE
+    z = np.linspace(-height_z/2, height_z/2, 50)
+    theta = np.linspace(0, 2*pi, 50)
+    theta_grid, z_grid=np.meshgrid(theta, z)
+    x_grid = radius*np.cos(theta_grid) + center_x
+    y_grid = radius*np.sin(theta_grid) + center_y
+
+    return x_grid,y_grid,z_grid
+                
+def grapher(length, width, model, T, D_tr, D_rot):
+    
     width *= 1e9
     length *= 1e9 # convert them from nm
              
@@ -23,18 +34,10 @@ def grapher(aspect_ratio, model, T, D_tr, D_rot):
 
     if model == 'cylinder':
         
-        def data_for_cylinder_along_z(center_x,center_y,radius,height_z): ## FROM SE
-            z = np.linspace(-height_z/2, height_z/2, 50)
-            theta = np.linspace(0, 2*pi, 50)
-            theta_grid, z_grid=np.meshgrid(theta, z)
-            x_grid = radius*np.cos(theta_grid) + center_x
-            y_grid = radius*np.sin(theta_grid) + center_y
-            return x_grid,y_grid,z_grid
-                
         Xc,Yc,Zc = data_for_cylinder_along_z(0.,0.,width/2, length)
         
-        phi = np.linspace(0,2*pi, 256).reshape(256, 1) # the angle of the projection in the xy-plane
-        theta = np.linspace(0, pi, 256).reshape(-1, 256) # the angle from the polar axis, ie the polar angle
+        phi = np.linspace(0,2*pi, RESOLUTION).reshape(RESOLUTION, 1) # the angle of the projection in the xy-plane
+        theta = np.linspace(0, pi, RESOLUTION).reshape(-1, RESOLUTION) # the angle from the polar axis, ie the polar angle
        
         # top and bottom surfaces:
         ax.plot_surface(width/2*np.sin(theta)*np.cos(phi), width/2*np.sin(theta)*np.sin(phi), length/2+np.zeros(np.shape(phi)), color = 'b')
@@ -47,31 +50,29 @@ def grapher(aspect_ratio, model, T, D_tr, D_rot):
             getattr(ax, 'set_{}lim'.format(axis))((-axbound/2,axbound/2))
         
         #plt.show()
-        aspect_ratio_str = str(aspect_ratio).replace('.','_') # so that we can save the filetype correctly
-        plt.savefig(f'.//plot of {model} with aspect ratio of {aspect_ratio_str}')
+        aspect_ratio_str = str(length/width).replace('.','_') # so that we can save the filetype correctly
         
     if model == 'oblate' or model == 'prolate':
         
-        phi = np.linspace(0,2*pi, 256).reshape(256, 1) # the angle of the projection in the xy-plane
-        theta = np.linspace(0, pi, 256).reshape(-1, 256) # the angle from the polar axis, ie the polar angle
+        phi = np.linspace(0,2*pi, RESOLUTION).reshape(RESOLUTION, 1) # the angle of the projection in the xy-plane
+        theta = np.linspace(0, pi, RESOLUTION).reshape(-1, RESOLUTION) # the angle from the polar axis, ie the polar angle
         rx, ry, rz = 0.5*width, 0.5*width, 0.5*length # give radii 
         
         # Transformation formulae for a spherical coordinate system.
         x = rx*np.sin(theta)*np.cos(phi)
         y = ry*np.sin(theta)*np.sin(phi)
         z = rz*np.cos(theta)
-        
-        rbound=max(rx,ry,rz)
+
+        rbound = max(rx,ry,rz)
         
         ax.plot_surface(x, y, z, color='b')
         
         for axis in 'xyz':
             getattr(ax, 'set_{}lim'.format(axis))((-rbound,rbound))
             
-        aspect_ratio_str = str(aspect_ratio).replace('.','_') # so that we can save the filetype correctly
-        plt.savefig(f'.//plot of {model} with aspect ratio of {aspect_ratio_str}')
-
-
+        aspect_ratio_str = str(length/width).replace('.','_') # so that we can save the filetype correctly
+    plt.savefig(f'.//{model}_plot_aspect_ratio_{aspect_ratio_str}')
+    print(f'File saved at {os.getcwd()}\{model}_plot_aspect_ratio_{aspect_ratio_str}.png')
 # Animation:
             
 #    for angle in range(0, 180,2): 
