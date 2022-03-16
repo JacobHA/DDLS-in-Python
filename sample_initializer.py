@@ -28,10 +28,10 @@ def initiator(dictionary_of_samples):
             print(f'Sample number {counter}: {title}')
             counter+=1
             
-        sampleNum = int(input(f'Enter the sample number : '))
-        model = str(input('Enter the model (prolate, oblate, cylinder) to be used: '))
-        assert model in MODELS_ALLOWED, f'{model} is not a valid model. Please enter a valid model.'
-        
+        sampleNum = int(input(f'Enter the sample number to analyze: '))
+        model = str(input('Enter the model to be used: '))
+        assert model in MODELS_ALLOWED, f'User entry \"{model}\" is not a valid model.\nPlease enter a valid model: {MODELS_ALLOWED}.'
+
         try:
             sample = dictionary_of_samples[sampleName][sampleNum - 1]
         except KeyError:
@@ -40,15 +40,16 @@ def initiator(dictionary_of_samples):
         
         name,T,D_tr,D_rot = sample
     
-        return model, T, D_tr, D_rot
+        return False, [model, T, D_tr, D_rot]
         
     if loop_or_not == '1':
-        model = str(input('Enter the model (prolate, oblate, cylinder) to be used: '))
+        model = str(input('Enter the model to be used: '))
+        assert model in MODELS_ALLOWED, f'User entry \"{model}\" is not a valid model.\nPlease enter a valid model: {MODELS_ALLOWED}.'
 
         temp_dic = dictionary_of_samples[sampleName]
         for j in temp_dic:
             j[0] = model
             # replacement to fit the return scheme
 
-        return temp_dic 
+        return True, temp_dic 
         

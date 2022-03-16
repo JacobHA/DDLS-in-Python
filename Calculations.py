@@ -16,7 +16,7 @@ from modelGrapher import grapher
 ### SOLVER: 
 
 warnings.filterwarnings("ignore")
-print("Note: All warnings in python Calculation module are being suppressed.")
+print("Note: All warnings in the Calculation module are being suppressed.")
 amtg = 300 # amount of starting guesses
 digits = 6 # desired digits when solving
 

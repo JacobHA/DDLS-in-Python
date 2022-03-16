@@ -16,14 +16,20 @@ newdata = input("If you would like to add a new dataset, type \"yes\" and press 
 if newdata == 'yes':
     # Proceed to add new data:
     writer()
-    print("Data added. Re-run file to analyze. Exiting...")
+    print("Data added. Re-run file to analyze this data. Exiting...")
 
 else:
     # Let the user select the model on dataset(s) of choice:
-    model = initiator(sample_dictionary)
-    
+    is_looped, model = initiator(sample_dictionary)
     try:
-        runner(*model)
+        if is_looped:
+            for model_params in model:
+                print(model_params)
+
+                runner(*model_params)
+        else:
+            runner(*model)
+
     except Exception as err:
         print(f'An error has occured: {err}')
         print("Model analysis failed. Exiting...")
