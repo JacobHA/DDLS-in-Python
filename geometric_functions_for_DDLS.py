@@ -25,11 +25,17 @@ def coeffs(T, D_tr, D_rot):
     return tr_coe, rot_coe # Just so we don't have to calculate multiple times
 
 
+# https://doi.org/10.1021/jp211533d
+# See equations 8, 11
+
 # PROLATE ELLIPSOID
 def F_pro(x):
     return x*np.log(x+np.sqrt(x**2 - 1))/np.sqrt(x**2 - 1)
+
 def G_pro(x):
     return 0.5*x**2 * (((2*x**2 - 1) / x**2) * (x*np.log(x+np.sqrt(x**2 - 1))/np.sqrt(x**2 - 1)) - 1) / (x**2 - 1)
+
+
 
 # OBLATE ELLIPSOID
 def F_obl(x):
@@ -37,11 +43,17 @@ def F_obl(x):
 def G_obl(x):
     return ((2*x-1)*np.sqrt(1-x**2)*np.arctan(np.sqrt(1-x**2)/x) - 1)/(x**2 - 1)
 
+
+# https://doi.org/10.1021/jp211533d
+# See equations 7a and 10a
+
 # CYLINDER
 def F_cyl(x):
     return np.log(x) + (0.312 + 0.565*x**(-1) - 0.1*x**(-2))
 def G_cyl(x):
     return np.log(x) +  (-0.662 + 0.917*x**(-1) - 0.050*x**(-2))
+
+# TODO: Concatenate the equations with 7b, 10b: for aspect ratios 0.1-20
 
 
 # The general optimization function:
