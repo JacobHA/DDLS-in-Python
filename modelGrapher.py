@@ -7,8 +7,6 @@ Created on Wed Nov 20 13:04:00 2019
 
 # PLOTTER
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D # need this still to plot
-import matplotlib.pyplot as plt
 from grapher_tools import sphere_plotter, cylinder_plotter
 
 RESOLUTION = 256
