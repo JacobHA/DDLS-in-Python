@@ -4,9 +4,9 @@ Depolarized Dynamic Light Scattering data analysis in python. Used to find aspec
 In addition, a graphical representation is shown to help with visualization.
 
 Visit one of the following to see sample outputs created:
-http://htmlpreview.github.io/?https://github.com/JacobHA/DDLS-in-Python/master/prolate_5.143347.html
-http://htmlpreview.github.io/?https://github.com/JacobHA/DDLS-in-Python/master/prolate_6.289547.html
-http://htmlpreview.github.io/?https://github.com/JacobHA/DDLS-in-Python/master/prolate_8.440575.html
+- http://htmlpreview.github.io/?https://github.com/JacobHA/DDLS-in-Python/master/prolate_5.143347.html
+- http://htmlpreview.github.io/?https://github.com/JacobHA/DDLS-in-Python/master/prolate_6.289547.html
+- http://htmlpreview.github.io/?https://github.com/JacobHA/DDLS-in-Python/master/prolate_8.440575.html
 
 ## Dependencies
 numpy, matplotlib, scipy.optimize, statistics
